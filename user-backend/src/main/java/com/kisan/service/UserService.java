@@ -12,17 +12,13 @@ import com.kisan.dto.UpdateProfileDto;
 import com.kisan.dto.UserDto;
 import com.kisan.dto.UserListDto;
 import com.kisan.dto.UserResponseDto;
-import com.kisan.pojo.FarmingType;
-import com.kisan.pojo.UserEntity;
-import com.kisan.pojo.UserRole;
+import com.kisan.models.FarmingType;
+import com.kisan.models.UserEntity;
+import com.kisan.models.UserRole;
 
 public interface UserService {
 
 	ApiResponse deleteUser(Long userId);
-
-	//ApiResponse uploadImage(MultipartFile image);
-
-	//MultipartFile getImage(Long userId);
 
 	List<UserListDto> getUsersByRole(UserRole role, int pageNumber, int pageSize);
 

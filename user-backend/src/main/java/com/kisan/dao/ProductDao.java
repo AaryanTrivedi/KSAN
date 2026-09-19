@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kisan.pojo.FarmingType;
-import com.kisan.pojo.Products;
-import com.kisan.pojo.UserEntity;
+import com.kisan.models.FarmingType;
+import com.kisan.models.Products;
+import com.kisan.models.UserEntity;
 
 public interface ProductDao extends JpaRepository<Products, Long> {
 	List<Products> findByStatusTrue();

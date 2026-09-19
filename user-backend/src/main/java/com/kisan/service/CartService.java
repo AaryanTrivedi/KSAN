@@ -2,7 +2,7 @@ package com.kisan.service;
 
 import java.util.Collection;
 
-import com.kisan.pojo.CartItem;
+import com.kisan.models.CartItem;
 
 public interface CartService {
 	void addToCart(Long userId, Long productId, int quantity);

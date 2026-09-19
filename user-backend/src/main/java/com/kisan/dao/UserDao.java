@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kisan.pojo.FarmingType;
-import com.kisan.pojo.UserEntity;
-import com.kisan.pojo.UserRole;
+import com.kisan.models.FarmingType;
+import com.kisan.models.UserEntity;
+import com.kisan.models.UserRole;
 
 public interface UserDao extends JpaRepository<UserEntity, Long>{
 

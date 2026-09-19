@@ -9,7 +9,7 @@ import com.kisan.dto.ProductRequestDto;
 import com.kisan.dto.ProductResponseDto;
 import com.kisan.dto.ProductsDto;
 import com.kisan.dto.SellProductRequestDto;
-import com.kisan.pojo.FarmingType;
+import com.kisan.models.FarmingType;
 
 public interface ProductService {
 
@@ -23,4 +23,12 @@ public interface ProductService {
 	List<ProductResponseDto> getAllProducts(int pageNumber, int pageSize);
 
 	String getImageType(Long id);
+
+    byte[] getProductImage(Long id);
+
+    Object updateProduct(Long id, ProductRequestDto productDto, MultipartFile productImage);
+    ApiResponse addProduct(ProductRequestDto dto, MultipartFile productImage, Long userId);
+    ApiResponse deleteProductDetails(Long productId);
+    ApiResponse markForSale(SellProductRequestDto dto, Long id);
+    List<ProductsDto> getProductsMarkedForSale();
 }

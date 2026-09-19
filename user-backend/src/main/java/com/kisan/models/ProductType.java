@@ -1,4 +1,5 @@
-package com.kisan.pojo;
+package com.kisan.models;
+
 
 public enum ProductType 
 {

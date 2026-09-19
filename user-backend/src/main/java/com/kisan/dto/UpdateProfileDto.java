@@ -4,38 +4,21 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
-import com.kisan.pojo.FarmingType;
-import com.kisan.pojo.UserEntity;
-import com.kisan.pojo.UserRole;
+import com.kisan.models.FarmingType;
+import com.kisan.models.UserEntity;
+import com.kisan.models.UserRole;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@JsonInclude(Include.NON_EMPTY)
-public class UpdateProfileDto{
-	private String email;
-	private String firstName;
-	private String lastName;
-	private String gender;
-	private UserRole role;
-	private FarmingType farmingType;
-	private String adrLine1;
-	private String adrLine2;
-	private String city;
-	private String state;
-	private String zipCode;
-
-}
-
+public record UpdateProfileDto(
+		String email,
+		String firstName,
+		String lastName,
+		String gender,
+		UserRole role,
+		FarmingType farmingType,
+		String adrLine1,
+		String adrLine2,
+		String city,
+		String state,
+		String zipCode
+) {}

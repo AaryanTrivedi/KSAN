@@ -33,9 +33,9 @@ import com.kisan.dto.UpdateProfileDto;
 import com.kisan.dto.UserDto;
 import com.kisan.dto.UserListDto;
 import com.kisan.dto.UserResponseDto;
-import com.kisan.pojo.FarmingType;
-import com.kisan.pojo.UserEntity;
-import com.kisan.pojo.UserRole;
+import com.kisan.models.FarmingType;
+import com.kisan.models.UserEntity;
+import com.kisan.models.UserRole;
 import com.kisan.security.JwtUtils;
 import com.kisan.service.UserService;
 import jakarta.validation.Valid;
@@ -82,7 +82,7 @@ public class UserController {
     
     @GetMapping("/image")
     public ResponseEntity<byte[]> getUserImageWithToken(){
-    	Long id = userService.getUserByJwt().getId();
+    	Long id = userService.getUserByJwt().id();
     	 byte[] responseImage = userService.getUserImage(id);
     	 return ResponseEntity.ok().contentType(MediaType.valueOf(userService.getImageType(id))).body(responseImage);
     } 
@@ -95,7 +95,7 @@ public class UserController {
 			AuthorizationRequest dto) {
 		UsernamePasswordAuthenticationToken 
 		authenticationToken = new UsernamePasswordAuthenticationToken
-		(dto.getEmail(),dto.getPassword());
+		(dto.email(),dto.password());
 		System.out.println(authenticationToken.isAuthenticated());
 		Authentication authToken = authenticationManager.authenticate(authenticationToken);
 		System.out.println(authToken.isAuthenticated());

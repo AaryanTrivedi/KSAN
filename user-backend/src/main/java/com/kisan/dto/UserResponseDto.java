@@ -1,30 +1,20 @@
 package com.kisan.dto;
 
-import com.kisan.pojo.FarmingType;
-import com.kisan.pojo.UserRole;
+import com.kisan.models.FarmingType;
+import com.kisan.models.UserRole;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString                         
-public class UserResponseDto extends BaseDto{
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String password;
-	private String gender;	
-	private String adrLine1;
-	private String adrLine2;
-	private String city;
-	private String state;
-	private String zipCode;
-	private UserRole Role;
-	private FarmingType type;
-}
+public record UserResponseDto(
+		Long id,
+		String firstName,
+		String lastName,
+		String email,
+		String password,
+		String gender,
+		String adrLine1,
+		String adrLine2,
+		String city,
+		String state,
+		String zipCode,
+		UserRole role,
+		FarmingType type
+) {}

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.kisan.pojo.Orders;
-import com.kisan.pojo.UserEntity;
+import com.kisan.models.Orders;
+import com.kisan.models.UserEntity;
 
 public interface OrderDao extends JpaRepository<Orders, Long>{
 	List<Orders> findByUser(UserEntity user);

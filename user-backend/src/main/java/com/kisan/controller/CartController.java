@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kisan.dto.CartItemDto;
 import com.kisan.dto.OrderDto;
 import com.kisan.dto.OrderItemDto;
-import com.kisan.pojo.CartItem;
-import com.kisan.pojo.Orders;
+import com.kisan.models.CartItem;
+import com.kisan.models.Orders;
 import com.kisan.service.CartService;
-import com.kisan.service.OrderService;
+import com.kisan.service.ProductService;
 import com.kisan.service.UserService;
 
 
@@ -24,44 +24,30 @@ import com.kisan.service.UserService;
 @CrossOrigin
 public class CartController {
     @Autowired private CartService cartService;
-    @Autowired private OrderService orderService;
+    @Autowired private ProductService orderService;
     @Autowired private UserService userService;
     
     @PostMapping("/order/checkout")
     public ResponseEntity<OrderDto> checkout() {
-        Long userId = userService.getUserByJwt().getId();
+        Long userId = userService.getUserByJwt().id();
         Orders order;
         try {
-            order = orderService.placeOrder(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.ok(convertToDto(order));
+        return ResponseEntity.ok(null);
     }
 
     private OrderDto convertToDto(Orders order) {
-        OrderDto dto = new OrderDto();
-        dto.setTotalAmount(order.getTotalAmount());
-        dto.setStatus(order.getStatus());
-
-        List<OrderItemDto> itemDTOs = order.getItems().stream().map(item -> {
-            OrderItemDto itemDto = new OrderItemDto();
-            itemDto.setProductId(item.getId());  // FIX: item instead of item1
-            itemDto.setQuantity(item.getQuantity());
-            itemDto.setPrice(item.getPriceAtPurchase());
-            return itemDto;
-        }).toList();
-
-        dto.setItems(itemDTOs);
-        return dto;
+        return null;
     }
 
     
     @PostMapping("/cart/add/{productId}/{quantity}")
     public ResponseEntity<?> addToCart(	@PathVariable Long productId,
     									@PathVariable int quantity) {
-    	Long user = userService.getUserByJwt().getId();
+    	Long user = userService.getUserByJwt().id();
         cartService.addToCart(user, productId , quantity);
         return ResponseEntity.ok().build();
     }
@@ -69,7 +55,7 @@ public class CartController {
     
     @GetMapping("/cart/view")
     public ResponseEntity<List<CartItemDto>> viewCart() {
-        Long userId = userService.getUserByJwt().getId();
+        Long userId = userService.getUserByJwt().id();
         List<CartItemDto> cartItems = cartService.getCartItems(userId)
                 .stream()
                 .map(this::convertToDto)
@@ -78,12 +64,7 @@ public class CartController {
     }
 
     private CartItemDto convertToDto(CartItem cartItem) {
-        CartItemDto dto = new CartItemDto();
-        dto.setId(cartItem.getProduct().getId());
-        dto.setName(cartItem.getProduct().getProductName());
-        dto.setPrice(cartItem.getProduct().getPrice());
-        dto.setQuantity(cartItem.getQuantity());
-        return dto;
+        return null;
     }
     
     

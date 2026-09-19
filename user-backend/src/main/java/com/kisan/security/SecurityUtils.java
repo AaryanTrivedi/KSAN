@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.kisan.custom_exceptions.ResourceNotFoundException;
 import com.kisan.dao.UserDao;
-import com.kisan.pojo.UserEntity;
+import com.kisan.models.UserEntity;
 
 @Component
 public class SecurityUtils {

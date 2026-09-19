@@ -11,10 +11,10 @@ import com.kisan.dao.CartDao;
 import com.kisan.dao.ProductDao;
 import com.kisan.dao.UserDao;
 import com.kisan.dto.OrderItemDto;
-import com.kisan.pojo.Cart;
-import com.kisan.pojo.CartItem;
-import com.kisan.pojo.Products;
-import com.kisan.pojo.UserEntity;
+import com.kisan.models.Cart;
+import com.kisan.models.CartItem;
+import com.kisan.models.Products;
+import com.kisan.models.UserEntity;
 
 import jakarta.transaction.Transactional;
 

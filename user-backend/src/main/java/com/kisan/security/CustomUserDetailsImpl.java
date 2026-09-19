@@ -8,11 +8,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.kisan.pojo.UserEntity;
+import com.kisan.models.UserEntity;
 
 
 public class CustomUserDetailsImpl implements UserDetails {
-	private com.kisan.pojo.UserEntity userEntity;
+	private com.kisan.models.UserEntity userEntity;
 	
 
 	public CustomUserDetailsImpl(UserEntity userEntity) {

@@ -2,15 +2,7 @@ package com.kisan.dto;
 
 import java.util.List;
 
-import com.kisan.pojo.OrderItem;
-import com.kisan.pojo.Orders.OrderStatus;
-import lombok.Getter;
-import lombok.Setter;
+import com.kisan.models.OrderItem;
+import com.kisan.models.Orders.OrderStatus;
 
-@Getter
-@Setter
-public class OrderDto {
-    private List<OrderItemDto> items;
-    private double totalAmount;
-    private OrderStatus status;
-}
+public record OrderDto (List<OrderItemDto> items,double totalAmount,OrderStatus status){}

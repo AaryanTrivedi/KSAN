@@ -1,26 +1,14 @@
 package com.kisan.dto;
 
-import com.kisan.pojo.UserRole;
+import com.kisan.models.UserRole;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-public class UserRespDTO extends BaseDto{
-	private String firstName;
-	private String lastName;
-	private String email;
-	private String password;
-	private String gender;	
-	private UserRole Role;
-
-}
+public record UserRespDTO(
+		String firstName,
+		String lastName,
+		String email,
+		String password,
+		String gender,
+		UserRole role
+) {}
 
 

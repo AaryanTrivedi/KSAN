@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kisan.dao.UserDao;
-import com.kisan.pojo.UserEntity;
+import com.kisan.models.UserEntity;
 
 @Service
 @Transactional

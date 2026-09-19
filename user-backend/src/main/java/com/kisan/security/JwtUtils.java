@@ -18,10 +18,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.slf4j.Slf4j;
 
 @Component
-@Slf4j
 public class JwtUtils {
 
 	@Value("${spring.security.jwt.secret.key}") //example of value injected as dependency , using SpEL
@@ -39,12 +37,12 @@ public class JwtUtils {
 
 	
 	public String generateJwtToken(Authentication authentication) {
-		log.info("generate jwt token " + authentication);
+
 		CustomUserDetailsImpl userPrincipal = (CustomUserDetailsImpl) authentication.getPrincipal();
 		return Jwts.builder() 
-				.setSubject((userPrincipal.getUsername())) /
+				.setSubject((userPrincipal.getUsername()))
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))/
+				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
 				.claim("authorities", getAuthoritiesInString(userPrincipal.getAuthorities()))
 				.claim("user_id",userPrincipal.getUserEntity().getId())
 		
@@ -60,13 +58,12 @@ public class JwtUtils {
 	// this method will be invoked by our custom JWT filter
 	public Claims validateJwtToken(String jwtToken) {
 		// try {
-		Claims claims = Jwts.parserBuilder() 
-				.setSigningKey(key) 
-				.build()
-				.parseClaimsJws(jwtToken) 
-				.getBody();
-		
-		return claims;		
+//		return Jwts.parserBuilder()
+//				.setSigningKey(key)
+//				.build()
+//				.parseClaimsJws(jwtToken)
+//				.getBody();
+		return null;
 	}
 	
 

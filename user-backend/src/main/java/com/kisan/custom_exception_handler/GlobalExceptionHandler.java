@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
 	public ApiResponse handleResourceNotFoundException(
 			ResourceNotFoundException e) {
 		System.out.println("in res not found " + e);
-		return new ApiResponse(e.getMessage());
+		return new ApiResponse(null,e.getMessage());
 	}
 	
 	// method level anno to tell SC , following is an exc handling method : to
@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
 		public ApiResponse handleAuthenticationException(
 				AuthenticationException e) {
 			System.out.println("in auth exc " + e);
-			return new ApiResponse(e.getMessage());
+			return new ApiResponse(null,e.getMessage());
 		}
 
 	// method level anno to tell SC , following is an exc handling method : to
@@ -60,6 +60,6 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	public ApiResponse handleAnyException(RuntimeException e) {
 		System.out.println("in catch-all " + e);
-		return new ApiResponse(e.getMessage());
+		return new ApiResponse(null,e.getMessage());
 	}
 }

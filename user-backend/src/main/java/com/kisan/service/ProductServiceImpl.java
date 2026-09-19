@@ -16,10 +16,10 @@ import com.kisan.dto.ProductRequestDto;
 import com.kisan.dto.ProductResponseDto;
 import com.kisan.dto.ProductsDto;
 import com.kisan.dto.SellProductRequestDto;
-import com.kisan.pojo.FarmingType;
-import com.kisan.pojo.MetricType;
-import com.kisan.pojo.Products;
-import com.kisan.pojo.UserEntity;
+import com.kisan.models.FarmingType;
+import com.kisan.models.MetricType;
+import com.kisan.models.Products;
+import com.kisan.models.UserEntity;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -35,12 +35,12 @@ public class ProductServiceImpl implements ProductService {
         // Fetch user from DB
         UserEntity user = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         Products product = new Products();
-        product.setProductName(dto.getProductName());
-        product.setProductType(dto.getProductType());
-        product.setTotalStock(dto.getTotalStock());
-        product.setMetric(dto.getMetric());
-        product.setLandArea(dto.getLandArea());
-        product.setFarmingType(dto.getFarmingType());
+        product.setProductName(dto.productName());
+        product.setProductType(dto.productType());
+        product.setTotalStock(dto.totalStock());
+        product.setMetric(dto.metric());
+        product.setLandArea(dto.landArea());
+        product.setFarmingType(dto.farmingType());
         product.setPrice(0);
         product.setStockToSell(0);
         product.setUser(user); 
@@ -50,12 +50,14 @@ public class ProductServiceImpl implements ProductService {
                 product.setImageName(productImage.getName());
                 product.setImageType(productImage.getContentType());
             } catch (Exception e) {
-                return new ApiResponse("Failed to upload product image: " + e.getMessage());
+//                return new ApiResponse("Failed to upload product image: " + e.getMessage());
+                return null;
             }
         }
         productDao.save(product);
 
-        return new ApiResponse("Added new product with ID " + product.getId());
+//        return new ApiResponse("Added new product with ID " + product.getId());
+        return null;
     }
     
     @Override
@@ -75,11 +77,11 @@ public class ProductServiceImpl implements ProductService {
     public Object updateProduct(Long id, ProductRequestDto productDto, MultipartFile productImage) {
         Products product = productDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found!"));
-        product.setProductName(productDto.getProductName());
-        product.setProductType(productDto.getProductType());
-        product.setTotalStock(productDto.getTotalStock());
-        product.setMetric(productDto.getMetric());
-        product.setLandArea(productDto.getLandArea());
+        product.setProductName(productDto.productName());
+        product.setProductType(productDto.productType());
+        product.setTotalStock(productDto.totalStock());
+        product.setMetric(productDto.metric());
+        product.setLandArea(productDto.landArea());
 
         if (productImage != null && !productImage.isEmpty()) {
         	try {
@@ -87,11 +89,13 @@ public class ProductServiceImpl implements ProductService {
                 product.setImageName(productImage.getName());
                 product.setImageType(productImage.getContentType());
             } catch (Exception e) {
-                return new ApiResponse("Failed to upload product image: " + e.getMessage());
-            }  
+//                return new ApiResponse("Failed to upload product image: " + e.getMessage());
+                    return  null;
+            }
         }
         productDao.save(product);
-        return new ApiResponse("Product updated successfully");
+//        return new ApiResponse("Product updated successfully");
+        return null;
     }
 
 
@@ -101,7 +105,8 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         product.setStatus(false);
         productDao.save(product);
-        return new ApiResponse("Product deleted successfully");
+//        return new ApiResponse("Product deleted successfully");
+        return null;
     }
 
     @Override
@@ -131,12 +136,13 @@ public class ProductServiceImpl implements ProductService {
         Products product = productDao.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
-        product.setStockToSell(dto.getStockToSell());
-        product.setPrice(dto.getPrice());
+        product.setStockToSell(dto.stockToSell());
+        product.setPrice(dto.price());
         product.setMarkedForSale(true);
 
         productDao.save(product);
-        return new ApiResponse("Product marked for sale");
+//        return new ApiResponse("Product marked for sale");
+        return null;
     }
 
     @Override
@@ -148,8 +154,6 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductResponseDto convertToDto(Products product) {
         return new ProductResponseDto(
-        		
-        		product.getId(),
                 product.getProductName(),
                 product.getProductType().toString(),
                 product.getPrice(),

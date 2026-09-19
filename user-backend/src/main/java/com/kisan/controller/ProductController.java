@@ -27,7 +27,7 @@ import com.kisan.dto.ProductRequestDto;
 import com.kisan.dto.ProductResponseDto;
 import com.kisan.dto.ProductsDto;
 import com.kisan.dto.SellProductRequestDto;
-import com.kisan.pojo.FarmingType;
+import com.kisan.models.FarmingType;
 import com.kisan.service.ProductService;
 
 @RestController
