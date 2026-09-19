@@ -1,4 +1,3 @@
-import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import HomePage from "./pages/HomePage";
 import FarmerLogin from './pages/FarmerLogin';
@@ -13,7 +12,7 @@ import ResetAdminPassword from './pages/ResetAdminPassword';
 import AdminUpdate from './pages/AdminUpdate';
 import AllUsers from './pages/AllUsers';
 import UserDashboard from './pages/UserDashboard';
-import AddNewProduct from './pages/AddNewProduct'; 
+import AddNewProduct from './pages/AddNewProduct';
 import ChangePassword from './pages/ChangePassword';
 import UpdateProfile from './pages/UpdateProfile';
 import MyProducts from './pages/MyProducts';
@@ -49,7 +48,7 @@ function App() {
           <Route path='/admin/update' element={<AdminUpdate/>}/>
           <Route path='/admin/users' element={<AllUsers/>}/>
           <Route path='/users/dashboard' element={<UserDashboard/>} />
-          <Route path='/users/add-product' element={<AddNewProduct/>} /> 
+          <Route path='/users/add-product' element={<AddNewProduct/>} />
           <Route path='/users/change-password' element={<ChangePassword/>} />
           <Route path='/users/update-profile' element={<UpdateProfile/>} />
           <Route path="/users/my-products" element={<MyProducts />} />
