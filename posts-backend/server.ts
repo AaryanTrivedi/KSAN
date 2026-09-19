@@ -15,9 +15,9 @@ mongoose.connect('mongoDbStringHere', {
 
 const postSchema = new mongoose.Schema({
     title: { type: String, required: true, trim: true },
-    farmingType: { 
-        type: String, 
-        required: true, 
+    farmingType: {
+        type: String,
+        required: true,
         enum: [
             "agriculture",
             "horticulture",
@@ -40,7 +40,7 @@ const postSchema = new mongoose.Schema({
             "vertical",
             "mechanized",
             "permaculture"
-          ] 
+          ]
     },
     sections: [{ subHeading: String, text: String, imageUrl: String }],
     createdAt: { type: Date, default: Date.now },
@@ -54,7 +54,7 @@ const Post = mongoose.model('Post', postSchema);
 const farmingTypeEnum = postSchema.path('farmingType').enumValues;
 
 // Create a new post
-app.post('/api/posts', async (req, res) => {
+app.post('/api/posts', async function(req, res){
     try {
         const post = new Post(req.body);
         await post.save();
@@ -65,7 +65,7 @@ app.post('/api/posts', async (req, res) => {
 });
 
 // Get posts by farmingType
-app.get('/api/posts', async (req, res) => {
+app.get('/api/posts', async function(req, res) {
     const farmingType = req.query.farmingType;
     if (!farmingType) {
         return res.status(400).send({ error: 'farmingType query parameter is required' });
@@ -82,7 +82,7 @@ app.get('/api/posts', async (req, res) => {
 });
 
 // Get post by ID
-app.get('/api/posts/:id', async (req, res) => {
+app.get('/api/posts/:id', async function(req, res){
     try {
         const post = await Post.findById(req.params.id);
         if (!post) {
@@ -95,7 +95,7 @@ app.get('/api/posts/:id', async (req, res) => {
 });
 
 // Update post by ID
-app.put('/api/posts/:id', async (req, res) => {
+app.put('/api/posts/:id', async function(req, res) {
     console.log("in update post");
     try {
         const post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
@@ -111,7 +111,7 @@ app.put('/api/posts/:id', async (req, res) => {
 
 
 // Delete post by ID
-app.delete('/api/posts/:id', async (req, res) => {
+app.delete('/api/posts/:id', async function(req, res) {
     try {
         const post = await Post.findByIdAndDelete(req.params.id);
         if (!post) {
