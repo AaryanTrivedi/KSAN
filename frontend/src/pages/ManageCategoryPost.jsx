@@ -55,7 +55,7 @@ export default function ManageCategoryPosts() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-900 text-white">
       <Header />
-      <div className="flex-grow flex items-center justify-center py-10 mt-20">
+      <div className="grow flex items-center justify-center py-10 mt-20">
         <div className="bg-gray-800/80 backdrop-blur-md p-8 rounded-2xl shadow-lg w-full max-w-6xl mx-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-200">
@@ -80,7 +80,7 @@ export default function ManageCategoryPosts() {
               {[...Array(3)].map((_, i) => (
                 <div key={i} className="animate-pulse flex items-start gap-6 p-5 bg-gray-700 rounded-lg">
                   <div className="w-40 h-40 bg-gray-600 rounded-lg"></div>
-                  <div className="flex-grow space-y-3">
+                  <div className="grow space-y-3">
                     <div className="h-6 bg-gray-600 w-2/3 rounded"></div>
                     <div className="h-4 bg-gray-600 w-full rounded"></div>
                     <div className="h-4 bg-gray-600 w-3/4 rounded"></div>
@@ -103,7 +103,7 @@ export default function ManageCategoryPosts() {
                         className="w-32 h-32 object-cover rounded-lg"
                       />
                     )}
-                    <div className="flex-grow">
+                    <div className="grow">
                       <h3 className="text-xl font-semibold text-gray-100 mb-2">{post.title}</h3>
                       <p className="text-gray-300 text-sm line-clamp-3">
                         {post.sections?.[0]?.text || "No content available"}
