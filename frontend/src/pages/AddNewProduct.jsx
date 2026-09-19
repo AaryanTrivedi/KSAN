@@ -4,6 +4,7 @@ import Header from '../components/common/Header';
 import Footer from '../components/common/Footer'; // Assuming you have a Footer component
 import { farmingTypes } from '../farmingTypes';
 import productTypes from '../productTypes';
+import axios from 'axios';
 
 export default function AddProduct() {
   const navigate = useNavigate();
@@ -53,19 +54,8 @@ export default function AddProduct() {
         formDataToSend.append('productImage', productImage); // Append the image file if it exists
       }
 
-      const response = await fetch('http://localhost:8080/products/add', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('userToken')}`, // Include user token for authentication
-        },
-        body: formDataToSend, // Send FormData instead of JSON
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add product');
-      }
-
-      const result = await response.json();
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/products/add`, {formDataToSend});
+      const result = response.data;
       console.log('Product added successfully:', result);
       navigate('/users/my-products'); // Redirect to My Products page after successful addition
     } catch (error) {

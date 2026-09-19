@@ -8,23 +8,21 @@ export default function PostDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    fetch(`http://localhost:3001/api/posts/${postId}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-        } else {
-          setPost(data);
+  useEffect(function () {
+    async function getPosts() {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_POSTS_URL}/api/posts/${postId}`)
+                setPost(response.data)
+            } catch (e) {
+                console.error(e)
+                setError(e)
+            }
+
         }
+        setLoading(true);
+        getPosts()
         setLoading(false);
-      })
-      .catch(() => {
-        setError("Failed to fetch post");
-        setLoading(false);
-      });
-  }, [postId]);
+    }, [postId])
 
   if (loading) return <div className="text-gray-400 text-center p-8">Loading post...</div>;
   if (error) return <div className="text-red-400 text-center p-8">{error}</div>;
@@ -37,7 +35,7 @@ export default function PostDetail() {
         <div className="mb-8 text-gray-400 text-sm">
           Posted on {new Date(post.createdAt).toLocaleDateString()} in {category}
         </div>
-        
+
         {post.sections?.map((section, index) => (
           <div key={index} className="mb-12">
             <h2 className="text-2xl font-semibold text-white mb-4">

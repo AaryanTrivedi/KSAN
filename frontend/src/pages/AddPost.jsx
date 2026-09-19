@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { farmingTypes } from "../farmingTypes";
 
+const URL = import.meta.env.VITE_FORMS_URL
+
 function Posts() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [formData, setFormData] = useState({ 
-        title: "", 
-        farmingType: "crops", 
-        authorName: "", 
-        authorEmail: "", 
-        sections: [{ subHeading: "", text: "", imageUrl: "" }] 
+    const [formData, setFormData] = useState({
+        title: "",
+        farmingType: "crops",
+        authorName: "",
+        authorEmail: "",
+        sections: [{ subHeading: "", text: "", imageUrl: "" }]
     });
 
     useEffect(() => {
-        axios.get("http://localhost:3001/api/posts?farmingType=crops")
+      axios.get(`${URL}/api/posts?farmingType=crops`)
             .then(response => {
                 setPosts(response.data);
                 setLoading(false);
@@ -36,16 +38,16 @@ function Posts() {
     };
 
     const addSection = () => {
-        setFormData({ 
-            ...formData, 
-            sections: [...formData.sections, { subHeading: "", text: "", imageUrl: "" }] 
+        setFormData({
+            ...formData,
+            sections: [...formData.sections, { subHeading: "", text: "", imageUrl: "" }]
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("http://localhost:3001/api/posts", {
+            const response = await axios.post(`${URL}/api/posts`, {
                 title: formData.title,
                 farmingType: formData.farmingType,
                 author: { name: formData.authorName, email: formData.authorEmail },
@@ -60,14 +62,14 @@ function Posts() {
     return (
         <div className="min-h-screen bg-gray-900 text-gray-300 p-6">
             <h1 className="text-4xl font-bold text-center text-white mb-6">Farming Blog</h1>
-            
+
             <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-lg mb-6">
                 <h2 className="text-2xl font-bold mb-4 text-white">Add a New Post</h2>
                 <input type="text" name="title" placeholder="Title" value={formData.title} onChange={handleChange} className="w-full p-2 mb-4 bg-gray-700 text-white border rounded focus:ring-blue-400 focus:border-blue-400" required />
-                <select 
-                    name="farmingType" 
-                    value={formData.farmingType} 
-                    onChange={handleChange} 
+                <select
+                    name="farmingType"
+                    value={formData.farmingType}
+                    onChange={handleChange}
                     className="w-full p-2 mb-4 bg-gray-700 text-white border rounded focus:ring-blue-400 focus:border-blue-400"
                 >
                     {farmingTypes.map(type => (
@@ -78,7 +80,7 @@ function Posts() {
                 </select>
                 <input type="text" name="authorName" placeholder="Author Name" value={formData.authorName} onChange={handleChange} className="w-full p-2 mb-4 bg-gray-700 text-white border rounded focus:ring-blue-400 focus:border-blue-400" required />
                 <input type="email" name="authorEmail" placeholder="Author Email" value={formData.authorEmail} onChange={handleChange} className="w-full p-2 mb-4 bg-gray-700 text-white border rounded focus:ring-blue-400 focus:border-blue-400" required />
-                
+
                 <h3 className="text-xl font-bold text-white mb-4">Sections</h3>
                 {formData.sections.map((section, index) => (
                     <div key={index} className="mb-4 bg-gray-700 p-4 rounded-lg">
@@ -88,7 +90,7 @@ function Posts() {
                     </div>
                 ))}
                 <button type="button" onClick={addSection} className="w-full bg-green-600 text-white p-2 rounded-lg hover:bg-green-500 transition-all mb-4">Add Section</button>
-                
+
                 <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-500 transition-all">Add Post</button>
             </form>
 

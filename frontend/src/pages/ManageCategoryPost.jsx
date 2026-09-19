@@ -17,7 +17,7 @@ export default function ManageCategoryPosts() {
       try {
         const token = localStorage.getItem("adminToken");
         const { data } = await axios.get(
-          `http://localhost:3001/api/posts?farmingType=${categoryName}`,
+          `${import.meta.env.VITE_FORMS_URL}/api/posts?farmingType=${categoryName}`,
           { headers: { Authorization: token } }
         );
         setPosts(data);
@@ -39,10 +39,10 @@ export default function ManageCategoryPosts() {
 
   const handleDeletePost = async (postId) => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
-    
+
     try {
       const token = localStorage.getItem("adminToken");
-      await axios.delete(`http://localhost:3001/api/posts/${postId}`, {
+      await axios.delete(`${import.meta.env.VITE_FORMS_URL}/api/posts/${postId}`, {
         headers: { Authorization: token }
       });
       setPosts(posts.filter((post) => post.id !== postId));
@@ -110,7 +110,7 @@ export default function ManageCategoryPosts() {
                       </p>
                     </div>
                   </div>
-                  
+
                   <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => handleEditPost(post.id)}

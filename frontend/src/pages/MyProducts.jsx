@@ -19,7 +19,7 @@ export default function MyProducts() {
           return;
         }
 
-        const response = await axios.get('http://localhost:8080/products/user-products', {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/user-products`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -27,11 +27,11 @@ export default function MyProducts() {
         const productsWithImages = await Promise.all(
           response.data.map(async (product) => {
             try {
-              const imageResponse = await axios.get(`http://localhost:8080/products/image/${product.id}`, {
+              const imageResponse = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/image/${product.id}`, {
                 headers: { Authorization: `Bearer ${token}` },
                 responseType: 'arraybuffer'
               });
-              
+
               const base64Image = btoa(
                 new Uint8Array(imageResponse.data).reduce(
                   (data, byte) => data + String.fromCharCode(byte),
@@ -73,7 +73,7 @@ export default function MyProducts() {
     try {
       const token = localStorage.getItem('userToken');
       await axios.put(
-        `http://localhost:8080/products/mark-sale/${productId}`,
+       `${import.meta.env.VITE_BACKEND_URL}/products/mark-sale/${productId}`,
         { price: updatedPrice, stockToSell },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -85,7 +85,7 @@ export default function MyProducts() {
             : product
         )
       );
-      
+
       setSuccessMessage('Product marked for sale successfully!');
       setError(null);
     } catch (err) {
@@ -97,7 +97,7 @@ export default function MyProducts() {
   const handleDeleteProduct = async (productId) => {
     try {
       const token = localStorage.getItem('userToken');
-      await axios.delete(`http://localhost:8080/products/delete/${productId}`, {
+      await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/products/delete/${productId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -119,7 +119,7 @@ export default function MyProducts() {
       <Header />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <h1 className="text-3xl font-bold text-white mb-8 mt-12">My Products</h1>
-        
+
         {/* Success Message */}
         {successMessage && (
           <div className="mb-4 p-3 bg-green-500 text-white rounded-lg">

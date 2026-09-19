@@ -11,7 +11,7 @@ export const CartPage = () => {
     const fetchCart = async () => {
       try {
         const token = localStorage.getItem("userToken");
-        const response = await axios.get("http://localhost:8080/cart/view", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/cart/view`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCartItems(response.data);
@@ -19,7 +19,7 @@ export const CartPage = () => {
         console.error("Error fetching cart:", error);
       }
     };
-    
+
     fetchCart();
   }, []);
 
@@ -31,7 +31,7 @@ export const CartPage = () => {
     try {
       const token = localStorage.getItem("userToken");
       const response = await axios.post(
-        "http://localhost:8080/order/checkout",
+        `${import.meta.env.VITE_BACKEND_URL}/order/checkout`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

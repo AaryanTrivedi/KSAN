@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/common/Header';
+import axios from 'axios';
 
 export default function ChangePassword() {
   const navigate = useNavigate();
@@ -21,32 +22,20 @@ export default function ChangePassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Check if passwords match
     if (formData.newPassword !== formData.confirmNewPassword) {
       setError("New passwords do not match");
       return;
     }
-  
+
     try {
-      const response = await fetch("http://localhost:8080/users/change-password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
-        },
-        body: JSON.stringify({
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/users/change-password`, {
           oldPassword: formData.oldPassword,
-          newPassword: formData.newPassword,
-        }),
+          newPassword: formData.newPassword
       });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to change password");
-      }
-  
+
+      const data = response.data;
       // Redirect to dashboard on success
       navigate("/users/dashboard");
     } catch (err) {

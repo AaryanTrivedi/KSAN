@@ -13,7 +13,7 @@ export const CartProvider = ({ children }) => {
       try {
         const token = localStorage.getItem("userToken");
         if (token) {
-          const response = await axios.get("http://localhost:8080/cart/view", {
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/cart/view`, {
             headers: { Authorization: `Bearer ${token}` }
           });
           setCount(response.data.length);
@@ -32,7 +32,7 @@ export const CartProvider = ({ children }) => {
     try {
       const token = localStorage.getItem("userToken");
       await axios.post(
-        `http://localhost:8080/cart/add/${productId}/${quantity}`,
+        `${import.meta.env.VITE_BACKEND_URL}/cart/add/${productId}/${quantity}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );

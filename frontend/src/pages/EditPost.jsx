@@ -16,7 +16,7 @@ export default function EditPost() {
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const { data } = await axios.get(`http://localhost:3001/api/posts/${postId}`);
+        const { data } = await axios.get(`${import.meta.env.VITE_FORMS_URL}/api/posts/${postId}`);
         if (data.error) {
           setError(data.error);
         } else {
@@ -60,13 +60,13 @@ export default function EditPost() {
     e.preventDefault();
     setError("");
     setSuccess("");
-    
+
     try {
       const { data } = await axios.put(
-        `http://localhost:3001/api/posts/${postId}`,
+        `${import.meta.env.VITE_FORMS_URL}/api/posts/${postId}`,
         post
       );
-      
+
       setSuccess("Post updated successfully!");
       setTimeout(() => {
         navigate(`/admin/manage-posts/${post.farmingType}`);
@@ -214,7 +214,7 @@ export default function EditPost() {
                   <PlusCircleIcon className="w-5 h-5" />
                   Add Section
                 </button>
-                
+
                 <div className="flex gap-4">
                   <button
                     type="button"

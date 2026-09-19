@@ -25,7 +25,7 @@ export default function AdminProfile() {
   const fetchAdminDetails = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const response = await axios.get('http://localhost:5274/admin/get-admin', {
+      const response = await axios.get(`${import.meta.env.VITE_ADMIN_URL}/admin/get-admin`, {
         headers: {
           'Authorization': token
         }
@@ -40,7 +40,7 @@ export default function AdminProfile() {
         mobile: admin.mobile
       };
       setEditMode(true);
-      
+
       // Store both current and original details
       setAdminDetails(details);
       setOriginalAdminDetails(details);
@@ -64,7 +64,7 @@ export default function AdminProfile() {
     try {
       const token = localStorage.getItem('adminToken');
       const response = await axios.put(
-        'http://localhost:5274/admin/update-profile', 
+        `${import.meta.env.VITE_ADMIN_URL}/admin/update-profile`,
         {
           firstName: adminDetails.firstName,
           lastName: adminDetails.lastName,
@@ -80,7 +80,7 @@ export default function AdminProfile() {
 
       // Handle successful update
       setSuccessMessage(response.data.Message || 'Profile updated successfully');
-      
+
       // Update original details to match new details
       setOriginalAdminDetails(adminDetails);
       setEditMode(false);
@@ -103,9 +103,9 @@ export default function AdminProfile() {
 
   return (
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
-        
+
       <div className="bg-gray-800 p-8 rounded-xl max-w-md w-full">
-        
+
         <h2 className="text-2xl font-semibold text-white mb-4">Admin Profile</h2>
         {/* Error and Success Messages */}
         {errorMessage && (
@@ -131,7 +131,7 @@ export default function AdminProfile() {
               value={adminDetails.firstName}
               onChange={handleInputChange}
               disabled={!editMode}
-              className={`w-full p-3 rounded-lg bg-gray-700 text-white 
+              className={`w-full p-3 rounded-lg bg-gray-700 text-white
                 ${editMode ? 'border border-indigo-500' : 'cursor-not-allowed opacity-50'}`}
             />
           </div>
@@ -146,7 +146,7 @@ export default function AdminProfile() {
               value={adminDetails.lastName}
               onChange={handleInputChange}
               disabled={!editMode}
-              className={`w-full p-3 rounded-lg bg-gray-700 text-white 
+              className={`w-full p-3 rounded-lg bg-gray-700 text-white
                 ${editMode ? 'border border-indigo-500' : 'cursor-not-allowed opacity-50'}`}
             />
           </div>
@@ -161,7 +161,7 @@ export default function AdminProfile() {
               value={adminDetails.email}
               onChange={handleInputChange}
               disabled={!editMode}
-              className={`w-full p-3 rounded-lg bg-gray-700 text-white 
+              className={`w-full p-3 rounded-lg bg-gray-700 text-white
                 ${editMode ? 'border border-indigo-500' : 'cursor-not-allowed opacity-50'}`}
             />
           </div>
@@ -176,7 +176,7 @@ export default function AdminProfile() {
               value={adminDetails.mobile}
               onChange={handleInputChange}
               disabled={!editMode}
-              className={`w-full p-3 rounded-lg bg-gray-700 text-white 
+              className={`w-full p-3 rounded-lg bg-gray-700 text-white
                 ${editMode ? 'border border-indigo-500' : 'cursor-not-allowed opacity-50'}`}
             />
           </div>
@@ -206,7 +206,7 @@ export default function AdminProfile() {
                 >
                   Cancel
                 </button>
-                
+
               </>
             )}
           </div>
@@ -219,7 +219,7 @@ export default function AdminProfile() {
             ← Back to Dashboard
           </button>
       </div>
-      
+
     </div>
   );
 }

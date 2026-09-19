@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function ResetAdminPassword() {
   const navigate = useNavigate();
-  
+
   // State to handle the form fields
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -23,7 +23,7 @@ export default function ResetAdminPassword() {
 
     try {
       const response = await axios.put(
-        'http://localhost:5274/admin/change-password',
+        `${import.meta.env.VITE_AUTH_URL}/admin/change-password`,
         { oldPassword, newPassword },
         {
           headers: {
@@ -53,10 +53,10 @@ export default function ResetAdminPassword() {
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="bg-gray-800 p-8 rounded-xl max-w-md w-full">
         <h2 className="text-2xl font-semibold text-white mb-4">Reset Password</h2>
-        
+
         {errorMessage && <div className="bg-red-500 text-white p-2 rounded mb-4">{errorMessage}</div>}
         {successMessage && <div className="bg-green-500 text-white p-2 rounded mb-4">{successMessage}</div>}
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="text-white block mb-2" htmlFor="oldPassword">Old Password</label>

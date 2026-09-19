@@ -73,7 +73,7 @@ export default function Signup() {
     if (!formData.lastName) newErrors.lastName = 'Last Name is required';
     if (!formData.phone) newErrors.phone = 'Phone Number is required';
     if (!formData.password) newErrors.password = 'Password is required';
-    if (formData.password !== formData.confirmPassword) 
+    if (formData.password !== formData.confirmPassword)
       newErrors.confirmPassword = 'Passwords do not match';
     if (!formData.gender) newErrors.gender = 'Gender is required';
     if (!formData.city) newErrors.city = 'City is required';
@@ -114,7 +114,7 @@ export default function Signup() {
       formDataToSend.append('imageFile', formData.image);
 
       const response = await axios.post(
-        'http://localhost:8080/users/register',
+        `${import.meta.env.VITE_AUTH_URL}/users/register`,
         formDataToSend,
         {
           headers: {
@@ -138,7 +138,7 @@ export default function Signup() {
       <Header />
       <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg mt-16">
         <h2 className="text-2xl font-bold text-white mb-6 text-center">Farmer Registration</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name Fields */}
           <div className="grid grid-cols-2 gap-4">

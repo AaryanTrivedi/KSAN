@@ -42,13 +42,13 @@ export default function AdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoginError('');
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5274/admin/login', formData);
+      const response = await axios.post(`${import.meta.env.VITE_AUTH_URL}/admin/login`, formData);
       if (response.data.token) {
         localStorage.setItem('adminToken',"Bearer "+response.data.token);
         //localStorage.setItem('adminToken'+response.data.token);
@@ -77,7 +77,7 @@ export default function AdminLogin() {
         <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           Admin Login
         </h1>
-        
+
         {loginError && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
             {loginError}

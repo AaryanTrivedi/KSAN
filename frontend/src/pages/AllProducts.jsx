@@ -19,7 +19,7 @@ export default function AllProducts() {
           return;
         }
 
-        const response = await axios.get('http://localhost:8080/products/view', {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/view`, {
           headers: { Authorization: `${token}` },
         });
 
@@ -28,13 +28,13 @@ export default function AllProducts() {
           response.data.map(async (product) => {
             try {
               const imageResponse = await axios.get(
-                `http://localhost:8080/products/image/${product.id}`,
+                `${import.meta.env.VITE_BACKEND_URL}/products/image/${product.id}`,
                 {
                   headers: { Authorization: `${token}` },
                   responseType: 'arraybuffer'
                 }
               );
-              
+
               const base64Image = btoa(
                 new Uint8Array(imageResponse.data).reduce(
                   (data, byte) => data + String.fromCharCode(byte),

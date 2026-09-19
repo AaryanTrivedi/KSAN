@@ -61,13 +61,13 @@ export default function AdminRegister() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setRegisterError('');
-    
+
     if (!validateForm()) return;
 
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5274/admin/register', formData);
+      const response = await axios.post(`${import.meta.env.VITE_ADMIN_URL}/admin/register`, formData);
       if (response.status === 201) {
         navigate('/admin/login');
       }
@@ -91,7 +91,7 @@ export default function AdminRegister() {
         <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
           Admin Registration
         </h1>
-        
+
         {registerError && (
           <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
             {registerError}

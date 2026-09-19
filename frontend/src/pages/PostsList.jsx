@@ -8,23 +8,21 @@ export default function PostsList() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!category) return;
-    setLoading(true);
-    setError(null);
-
-    fetch(`http://localhost:3001/api/posts?farmingType=${category}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.error) {
-          setError(data.error);
-          setPosts([]);
-        } else {
-          setPosts(data);
+    useEffect(() => {
+        async function getTypes() {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_POSTS_URL}/api/posts?farmingType=${category}`)
+                setPosts(response.data)
+            } catch (e) {
+                setError(e)
+                setPosts([])
+            }
         }
-      })
-      .catch(() => setError("Failed to fetch posts"))
-      .finally(() => setLoading(false));
+    if (!category) return;
+        setLoading(true);
+        setError(null);
+        getTypes()
+        setLoading(false);
   }, [category]);
 
   return (

@@ -61,7 +61,7 @@ export default function UpdateProfile() {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/users/get-user', {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/users/get-user`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,
         },
@@ -69,7 +69,7 @@ export default function UpdateProfile() {
       if(response.data.role === 'ROLE_FARMER')
         {
           response.data.role = "Farmer"
-        } 
+        }
         else{
           response.data.role = "Merchant"
         }
@@ -90,7 +90,7 @@ export default function UpdateProfile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('http://localhost:8080/users/update-profile', userData, {
+      const response = await axios.put(`${import.meta.env.VITE_BACKEND_URL}/users/update-profile`, userData, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('userToken')}`,

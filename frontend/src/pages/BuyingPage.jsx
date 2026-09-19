@@ -17,7 +17,7 @@ export const BuyingPage = () => {
     const fetchProducts = async () => {
       try {
         const token = localStorage.getItem("userToken");
-        const response = await axios.get("http://localhost:8080/products/for-sale", {
+        const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/products/for-sale`, {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
 
@@ -26,13 +26,13 @@ export const BuyingPage = () => {
           response.data.map(async (product) => {
             try {
               const imageResponse = await axios.get(
-                `http://localhost:8080/products/image/${product.id}`,
+                `${import.meta.env.VITE_BACKEND_URL}/products/image/${product.id}`,
                 {
                   headers: token ? { Authorization: `Bearer ${token}` } : {},
                   responseType: 'arraybuffer'
                 }
               );
-              
+
               const base64Image = btoa(
                 new Uint8Array(imageResponse.data).reduce(
                   (data, byte) => data + String.fromCharCode(byte),
@@ -48,7 +48,7 @@ export const BuyingPage = () => {
             }
           })
         );
-        
+
         setProducts(productsWithImages);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -113,7 +113,7 @@ export const BuyingPage = () => {
               <div key={product.id} className="bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-all">
                 <div className="relative h-48 rounded-lg overflow-hidden mb-4">
                   {product.productImage ? (
-                    <img 
+                    <img
                       src={product.productImage}
                       alt={product.productName}
                       className="w-full h-full object-cover"
@@ -124,7 +124,7 @@ export const BuyingPage = () => {
                     </div>
                   )}
                 </div>
-                
+
                 <h3 className="text-xl font-semibold mb-2">{product.productName}</h3>
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-2xl font-bold text-green-400">Rs.{product.price}</span>
@@ -138,14 +138,14 @@ export const BuyingPage = () => {
                     />
                   </div>
                 </div>
-                
+
                 <button
                   onClick={async () => {
                     const quantity = parseInt(quantities[product.id]) || 1;
                     try {
                       const token = localStorage.getItem("userToken");
                       await axios.post(
-                        `http://localhost:8080/cart/add/${product.id}/${quantity}`,
+                        `${import.meta.env.VITE_BACKEND_URL}/cart/add/${product.id}/${quantity}`,
                         {},
                         { headers: { Authorization: `Bearer ${token}` } }
                       );

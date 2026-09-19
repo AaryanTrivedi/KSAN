@@ -21,15 +21,15 @@ export default function Login() {
     if (validateForm()) {
       try {
         const response = await axios.post(
-          'http://localhost:8080/users/signin',
+          `${import.meta.env.VITE_AUTH_URL}/users/signin`,
           formData
         );
-        
+
         // Save JWT token to localStorage
         localStorage.setItem('userToken', response.data.jwt);
-        
-        // Fetch and store profile image
-        const imageResponse = await axios.get('http://localhost:8080/users/image', {
+
+        //[TODO] Implemnt S3 Storage for things like this in the future
+        const imageResponse = await axios.get(`${import.meta.env.VITE_AUTH_URL}/users/image`, {
           headers: { Authorization: `Bearer ${response.data.jwt}` },
           responseType: 'arraybuffer'
         });
@@ -40,7 +40,7 @@ export default function Login() {
             ''
           )
         );
-        localStorage.setItem('userProfileImage', 
+        localStorage.setItem('userProfileImage',
           `data:${imageResponse.headers['content-type']};base64,${base64}`
         );
 
@@ -67,7 +67,7 @@ export default function Login() {
       <Header />
       <div className="w-full max-w-md bg-gray-800 p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-white mb-6 text-center">Farmer Login</h2>
-        
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-gray-400 mb-2">Email</label>
@@ -94,7 +94,7 @@ export default function Login() {
             />
             {errors.password && <p className="text-red-400 text-sm mt-1">{errors.password}</p>}
           </div>
-          
+
           {errors.server && (
             <p className="text-red-400 text-sm mt-1 text-center">{errors.server}</p>
           )}
@@ -102,7 +102,7 @@ export default function Login() {
           <Link to='/forgot' className="block text-gray-300 mt-5 hover:text-white transition-all">
             Forgot Password?
           </Link>
-          
+
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-500 transition-all"
@@ -110,7 +110,7 @@ export default function Login() {
             Sign In
           </button>
         </form>
-        
+
         <label className="block text-gray-400 mt-5">
           Don't have an account?{' '}
           <Link to='/signup' className="text-gray-300 hover:text-white transition-all">

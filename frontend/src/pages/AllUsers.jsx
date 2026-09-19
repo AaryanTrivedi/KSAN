@@ -10,7 +10,7 @@ const UserList = () => {
     const fetchUsers = async () => {
       try {
         const token = localStorage.getItem('adminToken');
-        const response = await axios.get('http://localhost:8080/users/list', {
+        const response = await axios.get(`${import.meta.env.VITE_ADMIN_URL}/users/list`, {
           headers: {
             Authorization: `${token}`
           }
@@ -28,13 +28,13 @@ const UserList = () => {
 
   const handleDeactivate = async (userId) => {
     try {
-      await axios.delete(`http://localhost:8081/users/${userId}`, {
+      await axios.delete(`${import.meta.env.VITE_ADMIN_URL}/users/${userId}`, {
         headers: {
           Authorization: localStorage.getItem('adminToken')
         }
       });
       // Refresh the user list after deactivation
-      const response = await axios.get('http://localhost:8081/users/list', {
+      const response = await axios.get(`${import.meta.env.VITE_ADMIN_URL}/users/list`, {
         headers: {
           Authorization: localStorage.getItem('adminToken')
         }
