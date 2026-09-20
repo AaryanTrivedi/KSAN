@@ -21,9 +21,20 @@ import jakarta.transaction.Transactional;
 @Service
 @Transactional
 public class CartServiceImpl implements CartService {
-    @Autowired private CartRepository cartRepository;
-    @Autowired private ProductRepository productRepository;
-    @Autowired private UserRepository userRepository;
+
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
+
+    @Autowired
+    public CartServiceImpl(
+            CartRepository cartRepository,
+            ProductRepository productRepository,
+            UserRepository userRepository) {
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
 
     public void addToCart(Long userId, Long productId, int quantity) {
         Products product = productRepository.findById(productId)

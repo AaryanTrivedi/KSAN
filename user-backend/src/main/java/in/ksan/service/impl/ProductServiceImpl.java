@@ -25,11 +25,17 @@ import in.ksan.models.UserEntity;
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    public ProductServiceImpl(
+            ProductRepository productRepository,
+            UserRepository userRepository
+    ){
+        this.productRepository = productRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public ApiResponse addProduct(ProductRequestDto dto, MultipartFile productImage, Long userId) {

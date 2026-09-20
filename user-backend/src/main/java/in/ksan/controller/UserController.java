@@ -43,18 +43,28 @@ import jakarta.validation.Valid;
 @RequestMapping("/users")
 @CrossOrigin
 public class UserController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private JwtUtils jwtUtils;
 
+    private final UserService userService;
+	private final AuthenticationManager authenticationManager;
+	private final JwtUtils jwtUtils;
+
+	@Autowired
+	public UserController(
+			UserService userService,
+			AuthenticationManager authenticationManager,
+			JwtUtils jwtUtils
+	){
+		this.userService = userService;
+		this.authenticationManager = authenticationManager;
+		this.jwtUtils = jwtUtils;
+	}
 
     //Register user with image implementation using Multi-Part Response
     @PostMapping(value = "/register", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<?> addUser(@RequestPart String user,
-    								 @RequestPart MultipartFile imageFile){
+    public ResponseEntity<?> addUser(
+			@RequestPart String user,
+			@RequestPart MultipartFile imageFile
+	){
     	
     	ObjectMapper objectMapper = new ObjectMapper();
     	RegisterUserDto dto;
@@ -90,8 +100,11 @@ public class UserController {
     
     //Login API for users
     @PostMapping("/signin")
-	public ResponseEntity<?> userSignIn(@RequestBody @Valid
-			AuthorizationRequest dto) {
+	public ResponseEntity<?> userSignIn(
+			@RequestBody
+			@Valid
+			AuthorizationRequest dto
+	) {
 		UsernamePasswordAuthenticationToken 
 		authenticationToken = new UsernamePasswordAuthenticationToken
 		(dto.email(),dto.password());
@@ -102,31 +115,23 @@ public class UserController {
 	}
 
     
-    
-    
-    
     //update API for users
     @PutMapping("/update-profile")
-    public ResponseEntity<ApiResponse> updateProfile(@RequestBody UpdateProfileDto updateProfileDto) {
+    public ResponseEntity<ApiResponse> updateProfile(
+			@RequestBody
+			UpdateProfileDto updateProfileDto
+	){
         return ResponseEntity.ok(userService.updateProfile(updateProfileDto));
     }
 
-    
-    
-    
-    
-    
+
     //change password API for users
     @PutMapping("/change-password")
     public ResponseEntity<ApiResponse> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
         return ResponseEntity.ok(userService.changePassword(changePasswordDto));
     }
     
-    
-    
-    
-    
-    
+
     //list all users API for ADMIN
     @GetMapping("/list")
 	public ResponseEntity<?> getAllUsersPaginated(
@@ -139,31 +144,20 @@ public class UserController {
 		return ResponseEntity.ok(list);
 	}
 
-    
-    
-    
-    
-    
     //get one user for ADMIN
     @GetMapping("getUser/{userId}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
     }
     
-    
-    
-    
-    
+
     //required to update profile
     @GetMapping("/get-user")
     public ResponseEntity<UserResponseDto> getUserById(){
     	return ResponseEntity.ok(userService.getUserByJwt());
     }
-    
-    
-    
-    
-    
+
+
     //list of user based on farming type for ADMIN
     @GetMapping("/farming-type/{type}")
     public ResponseEntity<?> getUsersByFarmingType(@PathVariable FarmingType type,
@@ -176,10 +170,7 @@ public class UserController {
 		return ResponseEntity.ok(list);
     }
 
-    
-    
-    
-    
+
     //access all users by ADMIN
     @GetMapping("/role/{role}")
     public ResponseEntity<?> getUsersByRole(@PathVariable UserRole role,
@@ -192,8 +183,7 @@ public class UserController {
 		return ResponseEntity.ok(list);
     }
 
-    
-    
+
     //delete user by Administrator
     @DeleteMapping("delete/{userId}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long userId) {

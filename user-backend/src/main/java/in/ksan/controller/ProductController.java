@@ -35,13 +35,16 @@ import in.ksan.service.ProductService;
 @CrossOrigin
 public class ProductController {
 	
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
-    //view all products for ADMIN
+    @Autowired
+    ProductController(ProductService productService) {this.productService = productService;}
+
     @GetMapping("/view")
-    public ResponseEntity<?> viewAllProducts(@RequestParam(defaultValue = "0") int pageNumber,
-            								@RequestParam(defaultValue = "10") int pageSize) {
+    public ResponseEntity<?> viewAllProducts(
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "10") int pageSize
+    ){
         return ResponseEntity.ok(productService.getAllProducts(pageNumber, pageSize));
     }
 

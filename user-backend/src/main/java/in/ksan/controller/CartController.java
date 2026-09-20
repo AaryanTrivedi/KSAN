@@ -22,10 +22,21 @@ import in.ksan.service.UserService;
 @RestController
 @CrossOrigin
 public class CartController {
-    @Autowired private CartService cartService;
-    @Autowired private ProductService orderService;
-    @Autowired private UserService userService;
-    
+    private final CartService cartService;
+    private final ProductService productService;
+    private final UserService userService;
+
+    @Autowired
+    public CartController(
+            CartService cartService,
+            ProductService productService,
+            UserService userService
+    ) {
+        this.cartService = cartService;
+        this.productService = productService;
+        this.userService = userService;
+    }
+
     @PostMapping("/order/checkout")
     public ResponseEntity<OrderDto> checkout() {
         Long userId = userService.getUserByJwt().id();
@@ -44,8 +55,10 @@ public class CartController {
 
     
     @PostMapping("/cart/add/{productId}/{quantity}")
-    public ResponseEntity<?> addToCart(	@PathVariable Long productId,
-    									@PathVariable int quantity) {
+    public ResponseEntity<?> addToCart(
+            @PathVariable Long productId,
+    		@PathVariable int quantity
+    ) {
     	Long user = userService.getUserByJwt().id();
         cartService.addToCart(user, productId , quantity);
         return ResponseEntity.ok().build();
