@@ -9,7 +9,7 @@ import in.ksan.models.FarmingType;
 import in.ksan.models.UserEntity;
 import in.ksan.models.UserRole;
 
-public interface UserDao extends JpaRepository<UserEntity, Long>{
+public interface UserRepository extends JpaRepository<UserEntity, Long>{
 
 	Optional<UserEntity> findByEmail(String email);
 

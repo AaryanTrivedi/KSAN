@@ -1,14 +1,16 @@
-package in.ksan.service;
+package in.ksan.service.impl;
 
 import java.util.List;
 import java.util.Optional;
+
+import in.ksan.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import in.ksan.exceptions.ResourceNotFoundException;
 import in.ksan.repositories.CartRepository;
-import in.ksan.repositories.ProductDao;
-import in.ksan.repositories.UserDao;
+import in.ksan.repositories.ProductRepository;
+import in.ksan.repositories.UserRepository;
 import in.ksan.models.Cart;
 import in.ksan.models.CartItem;
 import in.ksan.models.Products;
@@ -20,17 +22,17 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class CartServiceImpl implements CartService {
     @Autowired private CartRepository cartRepository;
-    @Autowired private ProductDao productDao;
-    @Autowired private UserDao userDao;
+    @Autowired private ProductRepository productRepository;
+    @Autowired private UserRepository userRepository;
 
     public void addToCart(Long userId, Long productId, int quantity) {
-        Products product = productDao.findById(productId)
+        Products product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
         
         if (!product.isMarkedForSale() || product.getStockToSell() < quantity) {
             throw new IllegalArgumentException("Product not available for sale in the requested quantity");
         }
-        UserEntity user = userDao.findById(userId).get();
+        UserEntity user = userRepository.findById(userId).get();
         Cart cart = cartRepository.findByUser(user)
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
@@ -56,7 +58,7 @@ public class CartServiceImpl implements CartService {
 
 	@Override
 	public List<CartItem> getCartItems(Long userId) {
-        UserEntity user = userDao.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getActiveCart().getItems();
     }
 }

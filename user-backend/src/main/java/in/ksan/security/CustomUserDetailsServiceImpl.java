@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import in.ksan.dao.UserDao;
+import in.ksan.repositories.UserRepository;
 import in.ksan.models.UserEntity;
 
 @Service
@@ -15,12 +15,12 @@ import in.ksan.models.UserEntity;
 public class CustomUserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
-	private UserDao userDao;
+	private UserRepository userRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		// invoke dao' s method
-		UserEntity userEntity = userDao.findByEmail(email)
+		UserEntity userEntity = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("Email not found !!!!!"));
 		return new CustomUserDetailsImpl(userEntity);
 	}

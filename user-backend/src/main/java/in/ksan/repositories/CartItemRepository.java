@@ -1,9 +1,9 @@
-package in.ksan.dao;
+package in.ksan.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import in.ksan.models.CartItem;
 
-public interface CartItemDao extends JpaRepository<CartItem, Long>{
+public interface CartItemRepository extends JpaRepository<CartItem, Long>{
 
 }

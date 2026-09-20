@@ -1,9 +1,10 @@
-package in.ksan.service;
+package in.ksan.service.impl;
 
 import java.io.IOException;
 import java.util.List;
 
 import in.ksan.dto.*;
+import in.ksan.service.UserService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
@@ -15,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import in.ksan.exceptions.ApiException;
 import in.ksan.exceptions.ResourceNotFoundException;
-import in.ksan.repositories.UserDao;
+import in.ksan.repositories.UserRepository;
 import in.ksan.models.FarmingType;
 import in.ksan.models.UserEntity;
 import in.ksan.models.UserRole;
@@ -24,15 +25,15 @@ import in.ksan.models.UserRole;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     //private final ImageHandlingService imageHandlingService;
 
-    public UserServiceImpl(	UserDao userDao, 
+    public UserServiceImpl(	UserRepository userRepository,
     						PasswordEncoder passwordEncoder
     						//, ImageHandlingService imageHandlingService
     						) {
-        this.userDao = userDao;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
        // this.imageHandlingService = imageHandlingService;
     }
@@ -40,7 +41,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
 	public ApiResponse addNewUser(RegisterUserDto dto, MultipartFile imageFile) throws IOException {
-		 if (userDao.existsByEmail(dto.email())) {
+		 if (userRepository.existsByEmail(dto.email())) {
 	            throw new ApiException("User email already exists!");
 	        }
 
@@ -63,19 +64,19 @@ public class UserServiceImpl implements UserService {
 	        user.setImageType(imageFile.getContentType());
 	        user.setProfileImage(imageFile.getBytes());
 		
-		UserEntity savedUser =  userDao.save(user);
+		UserEntity savedUser =  userRepository.save(user);
 		return new ApiResponse(null,"");
 	}
     
     @Override
     public byte[] getUserImage(Long id) {
-    	UserEntity user = userDao.findById(id).orElseThrow();
+    	UserEntity user = userRepository.findById(id).orElseThrow();
     	return user.getProfileImage();
     }
     
     @Override
     public String getImageType(Long id) {
-    	UserEntity user = userDao.findById(id).orElseThrow();
+    	UserEntity user = userRepository.findById(id).orElseThrow();
     	return user.getImageType();
     }
 
@@ -85,8 +86,8 @@ public class UserServiceImpl implements UserService {
     public ApiResponse updateProfile(UpdateProfileDto dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        UserEntity user = userDao.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        userDao.save(user);
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        userRepository.save(user);
         return new ApiResponse(null, null);
     }
  
@@ -96,12 +97,12 @@ public class UserServiceImpl implements UserService {
     public ApiResponse changePassword(ChangePasswordDto dto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
-        UserEntity user = userDao.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         if (!passwordEncoder.matches(dto.oldPassword(), user.getPassword())) {
             throw new ApiException("Incorrect old password");
         }
         user.setPassword(passwordEncoder.encode(dto.newPassword()));
-        userDao.save(user);
+        userRepository.save(user);
         return new ApiResponse(null,"");
     }
     
@@ -111,7 +112,7 @@ public class UserServiceImpl implements UserService {
     @Override
 	public List<UserListDto> getAllUsers(int pageNumber, int pageSize) {
 		Pageable pageable = PageRequest.of(pageNumber, pageSize);
-		List<UserEntity> users = userDao.findAll(pageable).getContent();
+		List<UserEntity> users = userRepository.findAll(pageable).getContent();
 		return null;
 	}
     
@@ -122,7 +123,7 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public UserDto getUserById(Long userId) {
-        UserEntity user = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return null;
     }
 
@@ -152,9 +153,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ApiResponse deleteUser(Long userId) {
-        UserEntity user = userDao.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user.setStatus(false);
-        userDao.save(user);
+        userRepository.save(user);
 //        return new ApiResponse("User soft deleted successfully");
         return null;
     }
@@ -170,7 +171,7 @@ public class UserServiceImpl implements UserService {
 	public UserResponseDto getUserByJwt() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String email = authentication.getName();
-		UserEntity user = userDao.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found"));
+		UserEntity user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("user not found"));
 //		return modelMapper.map(user, UserResponseDto.class);
         return null;
 	}

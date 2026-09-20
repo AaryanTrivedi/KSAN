@@ -7,14 +7,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import in.ksan.exceptions.ResourceNotFoundException;
-import in.ksan.dao.UserDao;
+import in.ksan.repositories.UserRepository;
 import in.ksan.models.UserEntity;
 
 @Component
 public class SecurityUtils {
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     public UserEntity getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -22,7 +22,7 @@ public class SecurityUtils {
             throw new AccessDeniedException("User is not authenticated");
         }
         Long userId = (Long) authentication.getCredentials();
-        return userDao.findById(userId)
+        return userRepository.findById(userId)
             .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
     }
 

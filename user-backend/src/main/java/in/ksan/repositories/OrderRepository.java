@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import in.ksan.models.Orders;
 import in.ksan.models.UserEntity;
 
-public interface OrderDao extends JpaRepository<Orders, Long>{
+public interface OrderRepository extends JpaRepository<Orders, Long>{
 	List<Orders> findByUser(UserEntity user);
 }

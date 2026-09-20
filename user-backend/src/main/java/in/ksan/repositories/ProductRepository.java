@@ -9,7 +9,7 @@ import in.ksan.models.FarmingType;
 import in.ksan.models.Products;
 import in.ksan.models.UserEntity;
 
-public interface ProductDao extends JpaRepository<Products, Long> {
+public interface ProductRepository extends JpaRepository<Products, Long> {
 	List<Products> findByStatusTrue();
 	List<Products> findByStatusFalse();
 	List<Products> findByFarmingType(FarmingType farmingType);
