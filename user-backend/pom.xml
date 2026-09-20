@@ -13,10 +13,10 @@
 	</parent>
 
 	<groupId>in.at</groupId>
-	<artifactId>kisan-project</artifactId>
+	<artifactId>ksan-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>kisan-project</name>
+	<name>ksan-project</name>
 	<description>KSAN backend</description>
 
 	<properties>
